@@ -1,6 +1,7 @@
-import pytest
 from contextlib import contextmanager
 from datetime import datetime
+
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session
@@ -27,7 +28,6 @@ def session():
 
 @contextmanager
 def _mock_db_time(*, model, time=datetime(2025, 1, 1)):
-
     def fake_time_hook(mapper, connetion, target):
         if hasattr(target, 'created_at'):
             target.created_at = time
