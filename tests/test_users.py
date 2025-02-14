@@ -94,24 +94,12 @@ def test_update_user(client, user, token):
     }
 
 
-""" NOT YET(error)
-def test_update_integrity_error(client, user, token):
-    Insert Fauto
-    client.post(
-        '/users',
-        json={
-            'username': 'fausto',
-            'email': 'fausto@example.com',
-            'password': 'secret',
-        },
-    )
-
-    # changing the fixture user to Fausto
+def test_update_integrity_error(client, user, other_user, token):
     response_update = client.put(
         f'/users/{user.id}',
         headers={'Authorization': f'Bearer {token}'},
         json={
-            'username': 'fausto',
+            'username': other_user.username,
             'email': 'bob@example.com',
             'password': 'mynewpassword',
         },
@@ -121,7 +109,6 @@ def test_update_integrity_error(client, user, token):
     assert response_update.json() == {
         'detail': 'Username or Email already exists'
     }
-"""
 
 
 def test_update_user_with_wrong_user(client, other_user, token):
