@@ -11,10 +11,20 @@ def test_read_root_deve_retornar_ok_e_ola_mundo(client):
     assert response.json() == {'message': 'Hello World!'}
 
 
-def test_get_token_shoud_return_error(client, user):
+def test_get_token_wrong_email(client, user):
     response = client.post(
         '/auth/token',
         data={'username': 'fake@email.com', 'password': user.clean_password},
+    )
+
+    assert response.status_code == HTTPStatus.BAD_REQUEST
+    assert response.json() == {'detail': 'Incorrect email or password'}
+
+
+def test_get_token_wrong_password(client, user):
+    response = client.post(
+        '/auth/token',
+        data={'username': user.username, 'password': 'wrongpassword'},
     )
 
     assert response.status_code == HTTPStatus.BAD_REQUEST

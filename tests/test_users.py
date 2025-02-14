@@ -61,11 +61,11 @@ def test_read_users_with_users(client, user):
 
 
 def test_get_user_by_id(client, user):
-    response = client.get('/users/1')
+    response = client.get(f'/users/{user.id}')
     assert response.status_code == HTTPStatus.OK
     assert response.json() == {
-        'username': 'Teste',
-        'email': 'teste@test.com',
+        'username': 'teste9',
+        'email': 'teste9@teste.com',
         'id': 1,
     }
 
@@ -124,9 +124,9 @@ def test_update_integrity_error(client, user, token):
 """
 
 
-def test_update_user_shoud_return_error(client, user, token):
+def test_update_user_with_wrong_user(client, other_user, token):
     response = client.put(
-        '/users/999',
+        f'/users/{other_user.id}',
         headers={'Authorization': f'Bearer {token}'},
         json={
             'username': 'bob',
@@ -149,9 +149,9 @@ def test_delete_user(client, user, token):
     assert response.json() == {'message': 'User deleted'}
 
 
-def test_delete_user_shoud_return_error(client, user, token):
+def test_delete_user_with_wrong_user(client, other_user, token):
     response = client.delete(
-        '/users/999',
+        f'/users/{other_user.id}',
         headers={'Authorization': f'Bearer {token}'},
     )
 
