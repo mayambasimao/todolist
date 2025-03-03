@@ -48,14 +48,17 @@ def list_todos(
     query = select(Todo).where(Todo.user_id == user.id)
 
     if todo_filter.title:
+        # instead of “filter” it could be "where" without any problems ;)
         query = query.filter(Todo.title.contains(todo_filter.title))
 
     if todo_filter.description:
+        # instead of “filter” it could be "where" without any problems ;)
         query = query.filter(
             Todo.description.contains(todo_filter.description)
         )
 
     if todo_filter.state:
+        # instead of “filter” it could be "where" without any problems ;)
         query = query.filter(Todo.state == todo_filter.state)
 
     todos = session.scalars(
